@@ -18,11 +18,11 @@ export const userRegister = async (req, res) => {
         const uniqUserName = await users.findOne({ name: name });
 
         if (user) {
-            return res.status(400).json({ message: "User already exists" });
+            return res.status(200).json({ message: "User already exists" });
         }
 
         if (uniqUserName) {
-            return res.status(400).json({ message: "Username already exists" });
+            return res.status(200).json({ message: "Username already exists" });
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
@@ -47,12 +47,12 @@ export const userLogin= async(req, res) =>{
         const {email,password}=req.body;
         const user=await users.findOne({email:email});
         if(!user){
-            res.status(400).json({message:"User not found"})
+            res.status(200).json({message:"Email not found"})
         }
         else{
             const isMatch=await bcrypt.compare(password,user.password);
             if(!isMatch){
-                res.status(400).json({message:"Invalid credentials"})
+                res.status(200).json({message:"Invalid credentials"})
            
                  }
             else{
@@ -77,7 +77,7 @@ export const userExists= async(req, res)=>{
             res.status(200).json({message:"Email found"})
         }
         else{
-            res.status(400).json({message:"Email not found"})
+            res.status(200).json({message:"Email not found"})
         }
     } catch (error) {
         res.status(500).json({message:"Internal server error"})
@@ -90,7 +90,7 @@ export const resetPassword= async(req, res)=>{
         const {email,password}=req.body;
         const user=await users.findOne({email:email});
         if(!user){
-            res.status(400).json({message:"User not found"})
+            res.status(200).json({message:"User not found"})
       
             }
 
